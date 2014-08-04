@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="96dp"
+    android:layout_height="96dp"
+    android:orientation="vertical"
+    android:layout_centerVertical="true"
+    tools:context=".MainActivity"
+    tools:deviceIds="wear_square"
+    android:id="@+id/color_square"
+    android:text="Square"
+    android:gravity="bottom|center_horizontal"
+    android:background="#880000FF"/>
