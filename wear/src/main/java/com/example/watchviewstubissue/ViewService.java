@@ -4,14 +4,15 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.os.IBinder;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 /**
  * Created by nicolas on 04/08/14.
@@ -40,9 +41,9 @@ public class ViewService extends Service {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         mainView = layoutInflater.inflate(R.layout.activity_main, null);
-        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN, PixelFormat.TRANSPARENT);
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN, PixelFormat.TRANSPARENT);
 
-        params.gravity = Gravity.TOP|Gravity.RIGHT;
+//        params.gravity = Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;
         windowManager.addView(mainView, params);
 
         final WatchViewStub stub = (WatchViewStub) mainView.findViewById(R.id.watch_view_stub);
@@ -56,6 +57,16 @@ public class ViewService extends Service {
                     Log.d("ViewService", "Square");
                 }
                 return insets;
+            }
+        });
+
+        stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
+            @Override
+            public void onLayoutInflated(WatchViewStub watchViewStub) {
+                TextView text = (TextView) watchViewStub.findViewById(R.id.color_square);
+                Point point = new Point();
+                windowManager.getDefaultDisplay().getSize(point);
+                text.setText(point.x+"x"+point.y);
             }
         });
 
